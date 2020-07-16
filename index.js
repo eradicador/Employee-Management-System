@@ -11,12 +11,28 @@ async function loadMainMenu() {
                 value: "View_All_Employees"
             },
             {
-                name: "view all employees by departments",
+                name: "View all Employees by Department",
                 value: "View_All_Departments"
             },
             {
-                name: "view all employees by manager",
-                value: "View_All_Departments"
+                name: "View all Employees by Manager",
+                value: "View_All_Managers"
+            },
+            {
+                name: "Add Employee",
+                value: "View_All_New_Employees"
+            },
+            {
+                name: "Remove Employee",
+                value: "View_All_Employees"
+            },
+            {
+                name: "Update Employee Role",
+                value: "View_All_Employees"
+            },
+            {
+                name: "Update employee Manager",
+                value: "View_All_Employees"
             },
         ]
     }]);
