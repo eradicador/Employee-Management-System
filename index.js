@@ -11,7 +11,11 @@ async function loadMainMenu() {
                 value: "View_All_Employees"
             },
             {
-                name: "view all departments",
+                name: "view all employees by departments",
+                value: "View_All_Departments"
+            },
+            {
+                name: "view all employees by manager",
                 value: "View_All_Departments"
             },
         ]
