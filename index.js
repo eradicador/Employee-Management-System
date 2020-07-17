@@ -1,4 +1,20 @@
 const inquirer = require("inquirer");
+const mysql = require("mysql");
+
+const connection = mysql.createConnection({
+	host: "localhost",
+
+	// Your port
+	port: 3306,
+
+	// Your username
+	user: "root",
+
+	// Your password
+	password: "qwerty77",
+	database: "employee_db",
+});
+
 
 async function loadMainMenu() {
     const { choice } = await inquirer.prompt([{
@@ -44,8 +60,21 @@ async function loadMainMenu() {
     }
 
 }
-function viewEmployees() { console.log("ready employees") }
+function viewEmployees() {
+    console.log("retrieving employess from database");
+    var fancyQuery =
+        "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department on role.department_id = department.id;";
+    connection.query(fancyQuery, function (err, answer) {
+        console.log("\n Employees retrieved from Database \n");
+        console.table(answer);
+    });
+}
 
-function viewDepartment() {console.log("ready departments")}
+function viewDepartment() {
+    connection.query("SELECT * FROM department", function(err, answer) {
+      console.log("\n Departments Retrieved from Database \n");
+      console.table(answer);
+    });
+  }
 
 loadMainMenu();

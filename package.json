@@ -1,12 +1,12 @@
 {
-  "name": "employee-management-system",
+  "name": "Employee-Management-System",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "console.table": "^0.10.0",
-    "enquirer": "^2.3.6",
-    "inquirer": "^7.3.2"
+    "inquirer": "^7.3.2",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {},
   "scripts": {
@@ -16,6 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/eradicador/Employee-Management-System.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
