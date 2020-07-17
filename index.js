@@ -47,7 +47,7 @@ async function loadMainMenu() {
                 value: "View_All_Employees"
             },
             {
-                name: "Update employee Manager",
+                name: "Update Employee Manager",
                 value: "View_All_Employees"
             },
         ]
@@ -57,6 +57,16 @@ async function loadMainMenu() {
             return viewEmployees()
         case "View_All_Departments":
             return viewDepartment()
+        case "View_All_Managers":
+            return viewManagers()
+        case "Add_Employee":
+            return viewNewEmployees()
+        case "Remove_employee":
+            return viewEmployees()
+        case "Upadate_Role":
+            return viewEmployees()
+        case "Upadate_Manager":
+            return viewEmployees()
     }
 
 }
@@ -76,5 +86,10 @@ function viewDepartment() {
       console.table(answer);
     });
   }
+  //.connect() method on my connection
+  connection.connect((err) => {
+    if (err) throw err;
+    console.log(`Connected as id: ${connection.threadId}`);
+    loadMainMenu();
+  });
 
-loadMainMenu();
