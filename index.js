@@ -15,7 +15,6 @@ const connection = mysql.createConnection({
 	database: "employee_db",
 });
 
-
 async function loadMainMenu() {
     const { choice } = await inquirer.prompt([{
         type: "list",
@@ -54,19 +53,21 @@ async function loadMainMenu() {
     }]);
     switch (choice) {
         case "View_All_Employees":
-            return viewEmployees()
+            viewEmployees()
+            break;
         case "View_All_Departments":
-            return viewDepartment()
-        case "View_All_Managers":
-            return viewManagers()
-        case "Add_Employee":
-            return viewNewEmployees()
-        case "Remove_employee":
-            return viewEmployees()
-        case "Upadate_Role":
-            return viewEmployees()
-        case "Upadate_Manager":
-            return viewEmployees()
+            viewDepartment()
+            break;
+        // case "View_All_Managers":
+        //     viewManagers()
+        // case "Add_Employee":
+        //     viewNewEmployees()
+        // case "Remove_employee":
+        //     viewEmployees()
+        // case "Upadate_Role":
+        //     viewEmployees()
+        // case "Upadate_Manager":
+        //     viewEmployees()
     }
 
 }
@@ -86,6 +87,14 @@ function viewDepartment() {
       console.table(answer);
     });
   }
+  function viewallroles() {
+    connection.query("SELECT * FROM role", function(err, answer) {
+      console.log("\n Roles Retrieved from Database \n");
+      console.table(answer);
+    });
+    askQ();
+  }
+
   //.connect() method on my connection
   connection.connect((err) => {
     if (err) throw err;
