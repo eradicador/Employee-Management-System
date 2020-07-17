@@ -36,15 +36,15 @@ async function loadMainMenu() {
             },
             {
                 name: "Remove Employee",
-                value: "View_All_Employees"
+                value: "Remove_Employee"
             },
             {
                 name: "Update Employee Role",
-                value: "View_All_Employees"
+                value: "Update_Employee_Role"
             },
             {
                 name: "Update Employee Manager",
-                value: "View_All_Employees"
+                value: "Update_Manager"
             },
         ]
     }]);
@@ -61,14 +61,15 @@ async function loadMainMenu() {
         case "View_All_New_Employees":
             addEmployee()
             break;
-        // // case "Remove_employee":
-        // //     viewEmployees()
-        // break;
-        // // case "Upadate_Role":
-        // //     viewEmployees()
-        // break;
-        // // case "Upadate_Manager":
-        // //     viewEmployees()
+        case "Remove_Employee":
+            removeEmployee()
+            break;
+        case "Update_Employee_Role":
+            updateEmployeeRole()
+            break;
+        case "Upadate_Manager":
+            updateManager()
+            break;
     }
 
 }
@@ -100,32 +101,38 @@ function viewManagers() {
 
 
 function addEmployee() {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Enter employee first name",
-                name: "firstname"
-            },
-            {
-                type: "input",
-                message: "Enter employee last name",
-                name: "lastname"
-            },
-            {
-                type: "list",
-                name: "roleId",
-                message: "What is the employee's role?",
-                choices: roleChoices
-            },
-        ])
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Enter employee first name",
+            name: "firstname"
+        },
+        {
+            type: "input",
+            message: "Enter employee last name",
+            name: "lastname"
+        },
+        {
+            type: "list",
+            name: "roleId",
+            message: "What is the employee's role?",
+            choices: [
+                "Sales Lead",
+                "Salesperson",
+                "Lead Engineer",
+                "Accountant",
+                "Legal",
+                "Manager"
+            ]
+        },
+    ])
         .then(function (answer) {
             connection.query(
                 "INSERT INTO employee SET ?",
                 {
                     first_name: answer.firstname,
                     last_name: answer.lastname,
-                    role_id: null,
+                    role_id: answer.title,
                     manager_id: null
                 },
                 function (err, answer) {
@@ -139,7 +146,88 @@ function addEmployee() {
         });
 }
 
+// Delete employee
+function removeEmployee() {
+    inquirer.prompt([
+        {
+            // prompt user of all employees
+            type: "input",
+            message: "Enter employee first name",
+            name: "firstname"
+        },
+        {
+            // confirm delete of employee
+            name: "yesNo",
+            type: "list",
+            message: "Confirm deletion",
+            choices: ["NO", "YES"]
+        }
+    ]).then(function (answer) {
+        // Query all employees
+        connection.query("DELETE FROM employee.id, concat(employee.first_name, ' ' ,  employee.last_name) AS employee FROM employee ORDER BY Employee ASC"),
+            function (err, answer) {
+                if (err) {
+                    throw err;
+                }
+                console.table(answer);
+            };
+        // back to main menu
+        loadMainMenu();
 
+    });
+
+}
+
+
+function updateEmployeeRole() {
+    inquirer.prompt([
+        {
+            message: "which employee would you like to update? (enter first name)",
+            type: "input",
+            name: "name"
+        },
+        {
+            message: "enter the new role ID:",
+            type: "number",
+            name: "role_id"
+        },
+    ]).then(function (response) {
+        connection.query(
+            "UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
+                console.table(data), function (err, answer) {
+                    console.table(answer);
+                }
+            }
+
+        );
+        loadMainMenu();
+    });
+}
+
+function updateManager() {
+    inquirer.prompt([
+        {
+            message: "which manager would you like to update? (enter first name)",
+            type: "input",
+            name: "name"
+        },
+        {
+            message: "enter the new role ID:",
+            type: "number",
+            name: "role_id"
+        },
+    ]).then(function (response) {
+        connection.query(
+            "UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
+                console.table(data), function (err, answer) {
+                    console.table(answer);
+                }
+            }
+
+        );
+        loadMainMenu();
+    });
+}
 
 //.connect() method on my connection
 connection.connect((err) => {
