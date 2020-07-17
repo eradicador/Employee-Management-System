@@ -62,7 +62,7 @@ values ("John", "Burros", 3, 4);
 INSERT into employee (first_name, last_name, role_id, manager_id)
 values ("Jim", "Baker", 4, 4);
 INSERT into employee (first_name, last_name, role_id, manager_id)
-values ("George", "Washington", 5, NULL);
+values ("George", "Reyes", 5, NULL);
 INSERT into employee (first_name, last_name, role_id, manager_id)
 values ("Mary", "Jones", 6, 4);
 INSERT into employee (first_name, last_name, role_id, manager_id)

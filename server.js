@@ -46,6 +46,7 @@ async function loadMainMenu() {
                 name: "Update Employee Manager",
                 value: "Update_Manager"
             },
+            // [message: "move up and down to reveal more choices"]
         ]
     }]);
     switch (choice) {
@@ -70,6 +71,8 @@ async function loadMainMenu() {
         case "Upadate_Manager":
             updateManager()
             break;
+        default:
+            loadMainMenu
     }
 
 }
