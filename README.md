@@ -1,8 +1,31 @@
 # Employee Management System
 
 ## Description
-As a developer an created an application that 
+As a developer an created a CLI employee management application where a company will be able to view and manage departments, roles and employees. The interface is a CMS also known as Content Management System, the application was made using node, inquirer and mysql. The user will be able to view and add departments, roles, employees, besides update employee roles and managers.
 
+## Installation
+The database schema contains three tables:
+
+* **department**:
+
+  * **id** - INT PRIMARY KEY
+  * **name** - VARCHAR(30) to hold department name
+
+* **role**:
+
+  * **id** - INT PRIMARY KEY
+  * **title** -  VARCHAR(30) to hold role title
+  * **salary** -  DECIMAL to hold role salary
+  * **department_id** -  INT to hold reference to department role belongs to
+
+* **employee**:
+
+  * **id** - INT PRIMARY KEY
+  * **first_name** - VARCHAR(30) to hold employee first name
+  * **last_name** - VARCHAR(30) to hold employee last name
+  * **role_id** - INT to hold reference to role employee has
+  * **manager_id** - INT to hold reference to another employee that manager of the current employee. This field may be null if the employee has no manager
+  
 ## Screenshot 
 <img src ="screenshot.png" width="500">
 
