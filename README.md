@@ -1,7 +1,7 @@
 # Employee Management System
 
 ## Description
-As a developer an created a CLI employee management application where a company will be able to view and manage departments, roles and employees. The interface is a CMS also known as Content Management System, the application was made using node, inquirer and mysql. The user will be able to view and add departments, roles, employees, besides update employee roles and managers.
+As a developer an created a CLI employee management application where a company will be able to view and manage departments, roles and employees. The interface is a CMS also known as Content Management System, the application was made using node, inquirer and mysql. The user will be able to view and add departments, roles, employees, besides update employee roles.
 
 ## Installation
 The database schema contains three tables:

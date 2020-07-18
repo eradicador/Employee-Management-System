@@ -23,11 +23,11 @@ async function loadMainMenu() {
                 value: "View_All_Employees"
             },
             {
-                name: "View all Employees by Department",
+                name: "View all Departments",
                 value: "View_All_Departments"
             },
             {
-                name: "View all Employees by Manager",
+                name: "View all roles",
                 value: "View_All_Managers"
             },
             {
@@ -104,49 +104,47 @@ function viewManagers() {
 
 
 function addEmployee() {
-    inquirer.prompt([
-        {
-            type: "input",
-            message: "Enter employee first name",
-            name: "firstname"
-        },
-        {
-            type: "input",
-            message: "Enter employee last name",
-            name: "lastname"
-        },
-        {
-            type: "list",
-            name: "roleId",
-            message: "What is the employee's role?",
-            choices: [
-                "Sales Lead",
-                "Salesperson",
-                "Lead Engineer",
-                "Accountant",
-                "Legal",
-                "Manager"
-            ]
-        },
-    ])
-        .then(function (answer) {
-            connection.query(
-                "INSERT INTO employee SET ?",
-                {
-                    first_name: answer.firstname,
-                    last_name: answer.lastname,
-                    role_id: answer.title,
-                    manager_id: null
-                },
-                function (err, answer) {
-                    if (err) {
-                        throw err;
+    let roleNames = []
+    connection.query("SELECT * from role", function (err, data) {
+        roleNames = data.map(role => role.title)
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Enter employee first name",
+                name: "firstname"
+            },
+            {
+                type: "input",
+                message: "Enter employee last name",
+                name: "lastname"
+            },
+            {
+                type: "list",
+                name: "roleName",
+                message: "What is the employee's role?",
+                choices: roleNames
+            },
+        ])
+            .then(function (answer) {
+              const chosen = data.filter(role => role.title === answer.roleName)
+                connection.query(
+                    "INSERT INTO employee SET ?",
+                    {
+                        first_name: answer.firstname,
+                        last_name: answer.lastname,
+                        role_id: chosen[0].id,
+                        manager_id: null
+                    },
+                    function (err, answer) {
+                        if (err) {
+                            throw err;
+                        }
+                        console.log("employee Added Successfully");
                     }
-                    console.table(answer);
-                }
-            );
-            loadMainMenu()
-        });
+                );
+                loadMainMenu()
+            });
+    })
 }
 
 // Delete employee
@@ -198,7 +196,8 @@ function updateEmployeeRole() {
         connection.query(
             "UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
                 console.table(data), function (err, answer) {
-                    console.table(answer);
+                    console.log("employee sucessfully updated"
+                    );
                 }
             }
 
