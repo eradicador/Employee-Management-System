@@ -35,8 +35,12 @@ async function loadMainMenu() {
                 value: "View_All_New_Employees"
             },
             {
-                name: "Remove Employee",
-                value: "Remove_Employee"
+                name: "Add Department",
+                value: "Add_Department"
+            },
+            {
+                name: "Add Role",
+                value: "Add_Role"
             },
             {
                 name: "Update Employee Role",
@@ -62,8 +66,11 @@ async function loadMainMenu() {
         case "View_All_New_Employees":
             addEmployee()
             break;
-        case "Remove_Employee":
-            removeEmployee()
+        case "Add_Department":
+            addDepartment()
+            break;
+        case "Add_Role":
+            addRole()
             break;
         case "Update_Employee_Role":
             updateEmployeeRole()
@@ -126,7 +133,7 @@ function addEmployee() {
             },
         ])
             .then(function (answer) {
-              const chosen = data.filter(role => role.title === answer.roleName)
+                const chosen = data.filter(role => role.title === answer.roleName)
                 connection.query(
                     "INSERT INTO employee SET ?",
                     {
@@ -147,64 +154,100 @@ function addEmployee() {
     })
 }
 
-// Delete employee
-function removeEmployee() {
-    inquirer.prompt([
+// allows user to add a new employee to database
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter new Department Name",
+        name: "depName"
+      },
+    ])
+    .then(function(answer) {
+        console.log("1")
+      connection.query(
+        "INSERT INTO department SET ?",
         {
-            // prompt user of all employees
-            type: "input",
-            message: "Enter employee first name",
-            name: "firstname"
+          name: answer.depName,
         },
-        {
-            // confirm delete of employee
-            name: "yesNo",
-            type: "list",
-            message: "Confirm deletion",
-            choices: ["NO", "YES"]
+        function(err, answer) {
+          if (err) {
+            throw err;
+          }
+          console.log("employee Added Successfully");
         }
-    ]).then(function (answer) {
-        // Query all employees
-        connection.query("DELETE FROM employee.id, concat(employee.first_name, ' ' ,  employee.last_name) AS employee FROM employee ORDER BY Employee ASC"),
-            function (err, answer) {
-                if (err) {
-                    throw err;
-                }
-                console.table(answer);
-            };
-        // back to main menu
-        loadMainMenu();
-
-    });
-
-}
-
-
-function updateEmployeeRole() {
-    inquirer.prompt([
-        {
-            message: "which employee would you like to update? (enter first name)",
-            type: "input",
-            name: "name"
-        },
-        {
-            message: "enter the new role ID:",
-            type: "number",
-            name: "role_id"
-        },
-    ]).then(function (response) {
-        connection.query(
-            "UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
-                console.table(data), function (err, answer) {
-                    console.log("employee sucessfully updated"
-                    );
-                }
-            }
-
-        );
-        loadMainMenu();
+      );
+      loadMainMenu();
     });
 }
+
+const author = { name: 'Craig Buckler', city: 'Exmouth' };
+con.query('INSERT INTO authors SET ?', author, (err, res) => {
+  if(err) throw err;
+
+  console.log('Last insert ID:', res.insertId);
+});
+  
+// function addDepartment() {
+//     let depNames = []
+//     connection.query("SELECT * from department", function (err, data) {
+//         depNames = data.map(role => role.title)
+//         inquirer.prompt([
+//             {
+//                 type: "list",
+//                 name: "depName",
+//                 message: "Enter New Department Name ",
+//                 choices: depNames
+//             },
+//         ])
+//             .then(function (answer) {
+//                 const chosen = data.filter(department => department.name === answer.depName)
+//                 connection.query(
+//                     "INSERT INTO department SET ?",
+//                     {
+//                         name: answer.depName,
+//                         // role_id: chosen[0].id,
+//                         manager_id: null
+//                     },
+//                     function (err, answer) {
+//                         if (err) {
+//                             throw err;
+//                         }
+//                         console.log("employee Added Successfully");
+//                     }
+//                 );
+//                 loadMainMenu()
+//             });
+//     })
+// }
+
+
+// function updateEmployeeRole() {
+//     inquirer.prompt([
+//         {
+//             message: "which employee would you like to update? (enter first name)",
+//             type: "input",
+//             name: "name"
+//         },
+//         {
+//             message: "enter the new role ID:",
+//             type: "number",
+//             name: "role_id"
+//         },
+//     ]).then(function (response) {
+//         connection.query(
+//             "UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
+//                 console.table(data), function (err, answer) {
+//                     console.log("employee sucessfully updated"
+//                     );
+//                 }
+//             }
+
+//         );
+//         loadMainMenu();
+//     });
+// }
 
 function updateManager() {
     inquirer.prompt([
