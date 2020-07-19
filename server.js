@@ -94,9 +94,11 @@ function viewEmployees() {
 }
 
 function viewDepartment() {
+    console.log("inside view");
     var depQuery =
         "SELECT department.id, department.name, SUM(role.salary) AS utilized_budget FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id GROUP BY department.id, department.name;"
     connection.query(depQuery, function (err, answer) {
+        console.log("answer form ve=iewDepartments: ",answer);
         console.table(answer);
         loadMainMenu();
     });
@@ -109,7 +111,7 @@ function viewManagers() {
     });
 }
 
-
+// allows user to add a new employee to database
 function addEmployee() {
     let roleNames = []
     connection.query("SELECT * from role", function (err, data) {
@@ -154,7 +156,7 @@ function addEmployee() {
     })
 }
 
-// allows user to add a new employee to database
+// allows user to add a new department to database
 function addDepartment() {
   inquirer
     .prompt([
@@ -181,47 +183,35 @@ function addDepartment() {
       loadMainMenu();
     });
 }
-
-const author = { name: 'Craig Buckler', city: 'Exmouth' };
-con.query('INSERT INTO authors SET ?', author, (err, res) => {
-  if(err) throw err;
-
-  console.log('Last insert ID:', res.insertId);
-});
+// allows user to add a new department to database
+function addRole() {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Enter new Department Name",
+          name: "depName"
+        },
+      ])
+      .then(function(answer) {
+          console.log("1")
+        connection.query(
+          "INSERT INTO department SET ?",
+          {
+            name: answer.depName,
+          },
+          function(err, answer) {
+            if (err) {
+              throw err;
+            }
+            console.log("employee Added Successfully");
+          }
+        );
+        loadMainMenu();
+      });
+  }
   
-// function addDepartment() {
-//     let depNames = []
-//     connection.query("SELECT * from department", function (err, data) {
-//         depNames = data.map(role => role.title)
-//         inquirer.prompt([
-//             {
-//                 type: "list",
-//                 name: "depName",
-//                 message: "Enter New Department Name ",
-//                 choices: depNames
-//             },
-//         ])
-//             .then(function (answer) {
-//                 const chosen = data.filter(department => department.name === answer.depName)
-//                 connection.query(
-//                     "INSERT INTO department SET ?",
-//                     {
-//                         name: answer.depName,
-//                         // role_id: chosen[0].id,
-//                         manager_id: null
-//                     },
-//                     function (err, answer) {
-//                         if (err) {
-//                             throw err;
-//                         }
-//                         console.log("employee Added Successfully");
-//                     }
-//                 );
-//                 loadMainMenu()
-//             });
-//     })
-// }
-
+ 
 
 // function updateEmployeeRole() {
 //     inquirer.prompt([
