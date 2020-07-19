@@ -75,9 +75,6 @@ async function loadMainMenu() {
         case "Update_Employee_Role":
             updateEmployeeRole()
             break;
-        case "Upadate_Manager":
-            updateManager()
-            break;
         default:
             loadMainMenu
     }
@@ -167,7 +164,6 @@ function addDepartment() {
       },
     ])
     .then(function(answer) {
-        console.log("1")
       connection.query(
         "INSERT INTO department SET ?",
         {
@@ -189,16 +185,15 @@ function addRole() {
       .prompt([
         {
           type: "input",
-          message: "Enter new Department Name",
-          name: "depName"
+          message: "Enter new Role Name",
+          name: "roleName"
         },
       ])
       .then(function(answer) {
-          console.log("1")
         connection.query(
-          "INSERT INTO department SET ?",
+          "INSERT INTO role SET ?",
           {
-            name: answer.depName,
+            title: answer.roleName,
           },
           function(err, answer) {
             if (err) {
@@ -211,38 +206,10 @@ function addRole() {
       });
   }
   
- 
-
-// function updateEmployeeRole() {
-//     inquirer.prompt([
-//         {
-//             message: "which employee would you like to update? (enter first name)",
-//             type: "input",
-//             name: "name"
-//         },
-//         {
-//             message: "enter the new role ID:",
-//             type: "number",
-//             name: "role_id"
-//         },
-//     ]).then(function (response) {
-//         connection.query(
-//             "UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
-//                 console.table(data), function (err, answer) {
-//                     console.log("employee sucessfully updated"
-//                     );
-//                 }
-//             }
-
-//         );
-//         loadMainMenu();
-//     });
-// }
-
-function updateManager() {
+function updateEmployeeRole() {
     inquirer.prompt([
         {
-            message: "which manager would you like to update? (enter first name)",
+            message: "which employee would you like to update? (enter first name)",
             type: "input",
             name: "name"
         },
@@ -255,7 +222,8 @@ function updateManager() {
         connection.query(
             "UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
                 console.table(data), function (err, answer) {
-                    console.table(answer);
+                    console.log("employee sucessfully updated"
+                    );
                 }
             }
 
@@ -263,6 +231,7 @@ function updateManager() {
         loadMainMenu();
     });
 }
+
 
 //.connect() method on my connection
 connection.connect((err) => {
