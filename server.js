@@ -46,10 +46,7 @@ async function loadMainMenu() {
                 name: "Update Employee Role",
                 value: "Update_Employee_Role"
             },
-            {
-                name: "Update Employee Manager",
-                value: "Update_Manager"
-            },
+
             // [message: "move up and down to reveal more choices"]
         ]
     }]);
@@ -76,7 +73,7 @@ async function loadMainMenu() {
             updateEmployeeRole()
             break;
         default:
-            loadMainMenu
+
     }
 
 }
@@ -95,7 +92,7 @@ function viewDepartment() {
     var depQuery =
         "SELECT department.id, department.name, SUM(role.salary) AS utilized_budget FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id GROUP BY department.id, department.name;"
     connection.query(depQuery, function (err, answer) {
-        console.log("answer form ve=iewDepartments: ",answer);
+        console.log("answer form ve=iewDepartments: ", answer);
         console.table(answer);
         loadMainMenu();
     });
@@ -155,57 +152,57 @@ function addEmployee() {
 
 // allows user to add a new department to database
 function addDepartment() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: "Enter new Department Name",
-        name: "depName"
-      },
-    ])
-    .then(function(answer) {
-      connection.query(
-        "INSERT INTO department SET ?",
-        {
-          name: answer.depName,
-        },
-        function(err, answer) {
-          if (err) {
-            throw err;
-          }
-          console.log("employee Added Successfully");
-        }
-      );
-      loadMainMenu();
-    });
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Enter new Department Name",
+                name: "depName"
+            },
+        ])
+        .then(function (answer) {
+            connection.query(
+                "INSERT INTO department SET ?",
+                {
+                    name: answer.depName,
+                },
+                function (err, answer) {
+                    if (err) {
+                        throw err;
+                    }
+                    console.log("employee Added Successfully");
+                }
+            );
+            loadMainMenu();
+        });
 }
-// allows user to add a new department to database
+// allows user to add a new role to database
 function addRole() {
     inquirer
-      .prompt([
-        {
-          type: "input",
-          message: "Enter new Role Name",
-          name: "roleName"
-        },
-      ])
-      .then(function(answer) {
-        connection.query(
-          "INSERT INTO role SET ?",
-          {
-            title: answer.roleName,
-          },
-          function(err, answer) {
-            if (err) {
-              throw err;
-            }
-            console.log("employee Added Successfully");
-          }
-        );
-        loadMainMenu();
-      });
-  }
-  
+        .prompt([
+            {
+                type: "input",
+                message: "Enter new Role Name",
+                name: "roleName"
+            },
+        ])
+        .then(function (answer) {
+            connection.query(
+                "INSERT INTO role SET ?",
+                {
+                    title: answer.roleName,
+                },
+                function (err, answer) {
+                    if (err) {
+                        throw err;
+                    }
+                    console.log("employee Added Successfully");
+                }
+            );
+            loadMainMenu();
+        });
+}
+
 function updateEmployeeRole() {
     inquirer.prompt([
         {
