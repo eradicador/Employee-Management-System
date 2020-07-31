@@ -33,7 +33,7 @@ The database schema contains three tables:
 <img src ="employee-management-system.gif">
 
 ## Link to deployed app
-https://github.com/eradicador/Employee-Management-System
+https://eradicador.github.io/Employee-Management-System/.
 
 ## Link to app video walkthrough
 https://drive.google.com/file/d/1zltTsVkLoFI2fpZIIYyd7bYRHtPDCR-N/view
